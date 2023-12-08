@@ -5,6 +5,9 @@ from .models import ListOfParticipants
 from random import shuffle
 
 
+PPTX_TEMPLATE = "ppt-templates/funny-presentation.pptx"
+
+
 def create_presentation(
     participants: ListOfParticipants,
     presentation_path: Path,
@@ -12,7 +15,13 @@ def create_presentation(
     if len(participants.participants) == 0:
         raise ValueError("No participants found.")
 
-    prs = Presentation()
+    prs = Presentation(PPTX_TEMPLATE)
+
+    # Delete the first slide
+    slide_id = prs.slides._sldIdLst[0].rId
+    prs.part.drop_rel(slide_id)
+    del prs.slides._sldIdLst[0]
+
     for participant in participants.participants:
         # Add a big slide with the participant name
         slide = prs.slides.add_slide(prs.slide_layouts[0])
