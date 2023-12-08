@@ -20,4 +20,4 @@ def write_participants(json_file: Path, participants: ListOfParticipants) -> Non
     """Write a dictionary to a json file"""
 
     with open(json_file, "w") as f:
-        json.dump(participants.dict(), f, indent=4)
+        json.dump(participants.model_dump(), f, indent=4)
