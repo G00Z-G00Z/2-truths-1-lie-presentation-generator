@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from .models import ListOfParticipants, Participant, Statement
 from .json_parser import parse_participants
+from .presentation_generator import create_presentation
 
 
 def _add_participant(name: str, participants: ListOfParticipants) -> None:
@@ -43,6 +44,23 @@ def cli():
         "name", type=str, help="Name of the participant to remove"
     )
 
+    # Generate subcommand
+    parser_generate = subparsers.add_parser(
+        "generate", help="Generate a PowerPoint presentation"
+    )
+    parser_generate.add_argument(
+        "--input",
+        type=str,
+        default="participants.json",
+        help="Path to the input JSON file",
+    )
+    parser_generate.add_argument(
+        "--output",
+        type=str,
+        default="presentation.pptx",
+        help="Path to save the output PowerPoint file",
+    )
+
     args = parser.parse_args()
 
     # Read the participants from the JSON file
@@ -55,6 +73,9 @@ def cli():
             print(e)
     elif args.command == "remove":
         _remove_participant(args.name, participants)
+
+    elif args.command == "generate":
+        create_presentation(participants, Path(args.output))
     else:
         parser.print_help()
 
