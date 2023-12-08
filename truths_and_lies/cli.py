@@ -79,6 +79,12 @@ def cli():
         help="Path to save the output PowerPoint file",
     )
 
+    # Reset subcommand
+    parser_reset = subparsers.add_parser("reset", help="Reset the participant list")
+    parser_reset.add_argument(
+        "--force", action="store_true", help="Force reset without confirmation"
+    )
+
     args = parser.parse_args()
 
     # Read the participants from the JSON file
@@ -96,6 +102,12 @@ def cli():
             write_participants(Path("participants.json"), participants)
         case "generate":
             create_presentation(participants, Path(args.output))
+        case "reset":
+            if args.force or input("Are you sure you want to reset? (y/n): ") == "y":
+                participants.reset()
+                write_participants(Path("participants.json"), participants)
+            else:
+                print("Reset aborted.")
         case _:
             parser.print_help()
 
