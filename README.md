@@ -26,7 +26,7 @@ This project implements a fun and interactive game called "Two Truths and a Lie"
 2. Navigate to the project directory.
 3. Install the required libraries:
    ```bash
-   pip install pydantic python-pptx
+   pip install -r ./requirements.txt
    ```
 
 ## Usage
