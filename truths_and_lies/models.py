@@ -7,7 +7,7 @@ class Statement(BaseModel):
     """
 
     statement: str
-    isLie: bool
+    isLie: bool = False
 
 
 class Participant(BaseModel):
