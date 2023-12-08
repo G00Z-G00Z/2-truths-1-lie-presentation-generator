@@ -13,10 +13,28 @@ def _add_participant(name: str, participants: ListOfParticipants) -> None:
         raise ValueError(f"Participant '{name}' already exists.")
 
     participant = Participant(name=name)
+    statements: list[Statement] = []
+
+    # Collect the statements
     for i in range(1, 4):
         text = input(f"Enter statement {i}: ")
-        isLie = input(f"Is statement {i} a lie? (yes/no): ").lower() == "yes"
-        participant.add_statement(Statement(statement=text, isLie=isLie))
+        statements.append(Statement(statement=text))
+
+    # Ask for the number of the lie
+    while True:
+        try:
+            lie_number = int(input("Which statement is the lie? (1, 2, or 3): "))
+            if 1 <= lie_number <= 3:
+                break
+            else:
+                print("Please enter a number between 1 and 3.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+    # Add statements to the participant
+    for i, statement in enumerate(statements, start=1):
+        statement.isLie = i == lie_number
+        participant.add_statement(statement)
 
     participants.add_participant(participant)
 
