@@ -53,3 +53,9 @@ class ListOfParticipants(BaseModel):
         Remove a participant from the list of participants.
         """
         self.participants = [p for p in self.participants if p.name != name]
+
+    def reset(self):
+        """
+        Reset the list of participants.
+        """
+        self.participants = []
