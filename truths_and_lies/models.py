@@ -30,7 +30,7 @@ class ListOfParticipants(BaseModel):
     A list of participants in the game.
     """
 
-    participants: list[Participant]
+    participants: list[Participant] = []
 
     def find_participant(self, name: str) -> Participant | None:
         """
