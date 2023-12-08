@@ -1,7 +1,6 @@
 from pathlib import Path
 from pptx import Presentation
 from pptx.dml.color import RGBColor
-from .json_parser import parse_participants
 from .models import ListOfParticipants
 from random import shuffle
 
@@ -24,20 +23,21 @@ def create_presentation(
         statements = participant.statements.copy()
         shuffle(statements)
 
-        # Add a slide of only the statements
-        slide = prs.slides.add_slide(prs.slide_layouts[1])
-        title = slide.shapes.title
-        title.text = f"Statements from {participant.name}"
-        content = slide.placeholders[1]
-        content.text = ""
-        for statement in statements:
-            p = content.text_frame.add_paragraph()
-            p.text = statement.statement
+        # Add incremental slides for each statement
+        for i in range(1, len(statements) + 1):
+            slide = prs.slides.add_slide(prs.slide_layouts[1])
+            title = slide.shapes.title
+            title.text = f"Statements from {participant.name}"
+            content = slide.placeholders[1]
+            content.text = ""
+            for statement in statements[:i]:
+                p = content.text_frame.add_paragraph()
+                p.text = statement.statement
 
-        # Add a slide of the statements colored
+        # Add a final slide with all statements colored
         slide = prs.slides.add_slide(prs.slide_layouts[1])
         title = slide.shapes.title
-        title.text = f"Statements from {participant.name}"
+        title.text = f"Statements from {participant.name} (Reveal)"
         content = slide.placeholders[1]
         content.text = ""
         for statement in statements:
