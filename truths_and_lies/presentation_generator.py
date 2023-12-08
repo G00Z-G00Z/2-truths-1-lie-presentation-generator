@@ -2,13 +2,13 @@ from pathlib import Path
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from .json_parser import parse_participants
+from .models import ListOfParticipants
 
 
 def create_presentation(
-    participant_path: Path,
+    participants: ListOfParticipants,
     presentation_path: Path,
 ) -> None:
-    participants = parse_participants(participant_path)
     prs = Presentation()
     for participant in participants.participants:
         slide = prs.slides.add_slide(prs.slide_layouts[1])
