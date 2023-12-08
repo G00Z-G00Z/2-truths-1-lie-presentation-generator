@@ -16,7 +16,13 @@ class Participant(BaseModel):
     """
 
     name: str
-    statements: list[Statement]
+    statements: list[Statement] = []
+
+    def add_statement(self, statement: Statement) -> None:
+        """
+        Add a statement to the participant's list of statements.
+        """
+        self.statements.append(statement)
 
 
 class ListOfParticipants(BaseModel):
