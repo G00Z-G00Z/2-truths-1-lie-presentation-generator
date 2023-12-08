@@ -2,7 +2,7 @@ import argparse
 import json
 from pathlib import Path
 from .models import ListOfParticipants, Participant, Statement
-from .json_parser import parse_participants
+from .json_parser import parse_participants, write_participants
 from .presentation_generator import create_presentation
 
 
@@ -66,18 +66,20 @@ def cli():
     # Read the participants from the JSON file
     participants = parse_participants(Path("participants.json"))
 
-    if args.command == "add":
-        try:
-            _add_participant(args.name, participants)
-        except ValueError as e:
-            print(e)
-    elif args.command == "remove":
-        _remove_participant(args.name, participants)
-
-    elif args.command == "generate":
-        create_presentation(participants, Path(args.output))
-    else:
-        parser.print_help()
+    match args.command:
+        case "add":
+            try:
+                _add_participant(args.name, participants)
+                write_participants(Path("participants.json"), participants)
+            except ValueError as e:
+                raise e
+        case "remove":
+            _remove_participant(args.name, participants)
+            write_participants(Path("participants.json"), participants)
+        case "generate":
+            create_presentation(participants, Path(args.output))
+        case _:
+            parser.print_help()
 
 
 if __name__ == "__main__":
