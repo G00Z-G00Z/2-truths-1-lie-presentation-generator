@@ -17,7 +17,7 @@ def _add_participant(name: str, participants: ListOfParticipants) -> None:
 
     # Collect the statements
     for i in range(1, 4):
-        text = input(f"Enter statement {i}: ")
+        text = input(f"Enter statement {i}: ").strip()
         statements.append(Statement(statement=text))
 
     # Ask for the number of the lie
@@ -40,6 +40,7 @@ def _add_participant(name: str, participants: ListOfParticipants) -> None:
     participant.funny_phrase = input(
         "Write anything you want everyone to know (can be funny, a fact, a joke, something weird, etc): "
     ).strip()
+
     participants.add_participant(participant)
 
 
