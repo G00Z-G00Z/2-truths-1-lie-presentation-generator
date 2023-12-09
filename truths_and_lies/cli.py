@@ -102,25 +102,27 @@ def cli():
     # Read the participants from the JSON file
     participants = parse_participants(Path("participants.json"))
 
+    name = args.name.capitalize() if args.__contains__("name") else ""
+
     match args.command:
         case "add":
             try:
-                _add_participant(args.name, participants)
+                _add_participant(name, participants)
                 write_participants(Path("participants.json"), participants)
             except ValueError as e:
                 raise e
 
         case "edit":
             try:
-                person = participants.find_participant(args.name)
+                person = participants.find_participant(name)
 
                 if not person:
-                    raise ValueError(f"Participant '{args.name}' does not exist.")
+                    raise ValueError(f"Participant '{name}' does not exist.")
 
                 # Else delete the person
-                participants.remove_participant(args.name)
+                participants.remove_participant(name)
 
-                _add_participant(args.name, participants)
+                _add_participant(name, participants)
                 write_participants(Path("participants.json"), participants)
             except ValueError as e:
                 raise e
@@ -129,7 +131,7 @@ def cli():
             for participant in participants.participants:
                 print(f"{participant.name}")
         case "remove":
-            _remove_participant(args.name, participants)
+            _remove_participant(name, participants)
             write_participants(Path("participants.json"), participants)
         case "generate":
             create_presentation(participants, Path(args.output))
