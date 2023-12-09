@@ -67,6 +67,9 @@ def cli():
         "name", type=str, help="Name of the participant to remove"
     )
 
+    # list subcommand
+    parser_list = subparsers.add_parser("list", help="List all participants")
+
     # Generate subcommand
     parser_generate = subparsers.add_parser(
         "generate", help="Generate a PowerPoint presentation"
@@ -102,6 +105,10 @@ def cli():
                 write_participants(Path("participants.json"), participants)
             except ValueError as e:
                 raise e
+
+        case "list":
+            for participant in participants.participants:
+                print(f"{participant.name}")
         case "remove":
             _remove_participant(args.name, participants)
             write_participants(Path("participants.json"), participants)
