@@ -1,4 +1,4 @@
-from truths_and_lies import cli
+from truths_and_lies.cli import cli
 
 
 def main():
