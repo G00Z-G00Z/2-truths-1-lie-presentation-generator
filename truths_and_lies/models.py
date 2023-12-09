@@ -16,6 +16,7 @@ class Participant(BaseModel):
     """
 
     name: str
+    funny_phrase: str = ""
     statements: list[Statement] = []
 
     def add_statement(self, statement: Statement) -> None:
