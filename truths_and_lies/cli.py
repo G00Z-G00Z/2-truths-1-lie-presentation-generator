@@ -36,6 +36,10 @@ def _add_participant(name: str, participants: ListOfParticipants) -> None:
         statement.isLie = i == lie_number
         participant.add_statement(statement)
 
+    # Funny statement
+    participant.funny_phrase = input(
+        "Write anything you want everyone to know (can be funny, a fact, a joke, something weird, etc): "
+    ).strip()
     participants.add_participant(participant)
 
 
