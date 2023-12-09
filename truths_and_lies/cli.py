@@ -61,11 +61,18 @@ def cli():
     parser_add = subparsers.add_parser("add", help="Add a new participant")
     parser_add.add_argument("name", type=str, help="Name of the participant")
 
+    # Edit subcommand
+    parser_edit = subparsers.add_parser("edit", help="Edit a participant")
+    parser_edit.add_argument("name", type=str, help="Name of the participant")
+
     # Remove subcommand
     parser_remove = subparsers.add_parser("remove", help="Remove a participant")
     parser_remove.add_argument(
         "name", type=str, help="Name of the participant to remove"
     )
+
+    # list subcommand
+    parser_list = subparsers.add_parser("list", help="List all participants")
 
     # Generate subcommand
     parser_generate = subparsers.add_parser(
@@ -95,15 +102,36 @@ def cli():
     # Read the participants from the JSON file
     participants = parse_participants(Path("participants.json"))
 
+    name = args.name.capitalize() if args.__contains__("name") else ""
+
     match args.command:
         case "add":
             try:
-                _add_participant(args.name, participants)
+                _add_participant(name, participants)
                 write_participants(Path("participants.json"), participants)
             except ValueError as e:
                 raise e
+
+        case "edit":
+            try:
+                person = participants.find_participant(name)
+
+                if not person:
+                    raise ValueError(f"Participant '{name}' does not exist.")
+
+                # Else delete the person
+                participants.remove_participant(name)
+
+                _add_participant(name, participants)
+                write_participants(Path("participants.json"), participants)
+            except ValueError as e:
+                raise e
+
+        case "list":
+            for participant in participants.participants:
+                print(f"{participant.name}")
         case "remove":
-            _remove_participant(args.name, participants)
+            _remove_participant(name, participants)
             write_participants(Path("participants.json"), participants)
         case "generate":
             create_presentation(participants, Path(args.output))
