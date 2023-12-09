@@ -2,11 +2,25 @@
 
 ## Overview
 
-This project implements a fun and interactive game called "Two Truths and a Lie". Participants provide two truths and one lie about themselves, and others guess which statement is the lie. The project consists of two main parts:
+The Two Truths and a Lie Game CLI (tlpg-cli, Truth and Lies Presentation Generator Cli) is a command-line tool for managing participants and generating PowerPoint presentations for the game "Two Truths and a Lie". This tool allows users to add, edit, remove, list participants, generate presentations, and reset the participant list.
 
-1. **Data Collection Script**: A Python script to collect participants' statements and save them into a JSON file. Each participant's entry includes their name and three statements, with a flag indicating which statement is a lie.
+The project works through a `cli` which you can install using pip: 
 
-2. **Presentation Generator**: Another Python script reads the JSON file and generates a PowerPoint presentation. Each participant's statements are displayed on individual slides, with truths in green and the lie in red.
+```bash
+pip install git+https://github.com/G00Z-G00Z/2-truths-1-lie-presentation-generator.git
+```
+
+or if you are developing locally: 
+
+```bash
+pip install -e .
+```
+
+Then you can use the cli like this: 
+
+```bash
+tlpg-cli --help
+```
 
 ## Installation
 
@@ -31,31 +45,60 @@ This project implements a fun and interactive game called "Two Truths and a Lie"
 
 ## Usage
 
-### Data Collection
+The tlpg-cli supports several commands:
 
-Run the data collection script:
-
-```bash
-python truths_and_lie.py
-```
-
-Enter the participant's name and their three statements. Mark which one is a lie. 
-The script will save the entries in a JSON file.
-
-### Generating Presentation
-
-Ensure the statements.json file is in the same directory as the presentation script.
-Run the presentation generator script:
+### Add a Participant
 
 ```bash
-python generate_presentation.py
+tlpg-cli add
 ```
 
-The script will create a PowerPoint presentation with the participants' statements.
+Use this command to add a new participant. You will be prompted to enter the participant's name and their statements.
+
+### Edit a Participant
+
+```bash
+tlpg-cli edit
+```
+
+This command allows you to edit an existing participant's details.
+
+### Remove a Participant
+
+```bash
+tlpg-cli remove
+```
+
+Use this command to remove a participant from the game.
+
+### List Participants
+
+```bash
+tlpg-cli list
+```
+
+This command lists all the participants currently in the game.
+
+### Generate a PowerPoint Presentation
+
+```bash
+tlpg-cli generate
+```
+
+Use this command to generate a PowerPoint presentation with the participants' statements.
+
+### Reset the Participant List
+
+```bash
+tlpg-cli reset
+```
+
+This command resets the participant list. Use it with caution as it will clear all participant data.
+
 
 # Contributing
 
-Contributions to the project are welcome. Please follow the standard procedures for contributing to open-source projects:
+Contributions to the `tlpg-cli` are welcome. Please follow the standard procedures for contributing to open-source projects:
 
 1. Fork the repository.
 1. Create a new branch for your feature or bug fix.
