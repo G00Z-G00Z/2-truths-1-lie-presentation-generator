@@ -61,6 +61,10 @@ def cli():
     parser_add = subparsers.add_parser("add", help="Add a new participant")
     parser_add.add_argument("name", type=str, help="Name of the participant")
 
+    # Edit subcommand
+    parser_edit = subparsers.add_parser("edit", help="Edit a participant")
+    parser_edit.add_argument("name", type=str, help="Name of the participant")
+
     # Remove subcommand
     parser_remove = subparsers.add_parser("remove", help="Remove a participant")
     parser_remove.add_argument(
@@ -101,6 +105,21 @@ def cli():
     match args.command:
         case "add":
             try:
+                _add_participant(args.name, participants)
+                write_participants(Path("participants.json"), participants)
+            except ValueError as e:
+                raise e
+
+        case "edit":
+            try:
+                person = participants.find_participant(args.name)
+
+                if not person:
+                    raise ValueError(f"Participant '{args.name}' does not exist.")
+
+                # Else delete the person
+                participants.remove_participant(args.name)
+
                 _add_participant(args.name, participants)
                 write_participants(Path("participants.json"), participants)
             except ValueError as e:
