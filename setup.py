@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="truths-and-lies-cli",
-    version="1.0.0",
+    version="1.0.2",
     description="Two Truths and a Lie Game presentation generator",
     long_description=long_description,
     long_description_content_type="text/markdown",
