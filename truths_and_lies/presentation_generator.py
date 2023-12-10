@@ -11,10 +11,10 @@ FONT_SIZE = Pt(25)
 
 
 def create_presentation(
-    participants: ListOfParticipants,
+    list_participants: ListOfParticipants,
     presentation_path: Path,
 ) -> None:
-    if len(participants.participants) == 0:
+    if len(list_participants.participants) == 0:
         raise ValueError("No participants found.")
 
     prs = Presentation(PPTX_TEMPLATE)
@@ -27,13 +27,16 @@ def create_presentation(
     subtitle = slide.placeholders[1]
     subtitle.text = "Fiesta Edy 2023"
 
-    for participant in participants.participants:
+    participants = list_participants.participants.copy()
+    shuffle(participants)
+
+    for participant in participants:
         # Add a big slide with the participant name
         slide = prs.slides.add_slide(prs.slide_layouts[0])
         title = slide.shapes.title
         title.text = participant.name.capitalize()
         subtitle = slide.placeholders[1]
-        subtitle.text = "Te toca a ti!!"
+        subtitle.text = participant.funny_phrase
 
         # Shuffle the statements
         statements = participant.statements.copy()
